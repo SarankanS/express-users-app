@@ -67,3 +67,29 @@ exports.usersDeletePost = (req, res) => {
   usersStorage.deleteUser(req.params.id);
   res.redirect("/");
 };
+
+exports.usersSearchGet = (req, res) => {
+  const { firstName = "", lastName = "", email = "" } = req.query;
+  const users = usersStorage.getUsers();
+  const fName = firstName.toLowerCase().trim();
+  const lName = lastName.toLowerCase().trim();
+  const emailInput = email.toLowerCase().trim();
+
+
+  const results = users.filter((user) => {
+    const matchFirst = fName ? user.firstName.toLowerCase().includes(fName) : true;
+    const matchLast  = lName ? user.lastName.toLowerCase().includes(lName) : true;
+    const matchEmail = emailInput ? (user.email || "").toLowerCase().includes(emailInput) : true;
+    
+    return matchFirst && matchLast && matchEmail;
+  })
+
+  res.render("search", {
+    title: "Search Results",
+    query: { firstName, lastName, email },
+    results
+  });
+  
+}
+
+

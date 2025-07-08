@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><%= title %></h1>
+
+  <% if (query.firstName || query.lastName || query.email) { %>
+    <p>Showing results for:
+      <% if (query.firstName) { %> First Name: "<%= query.firstName %>" <% } %>
+      <% if (query.lastName) { %> Last Name: "<%= query.lastName %>" <% } %>
+      <% if (query.email) { %> Email: "<%= query.email %>" <% } %>
+    </p>
+  <% } else { %>
+    <p>No search criteria provided.</p>
+  <% } %>
+
+  <% if (results.length > 0) { %>
+    <ul>
+      <% results.forEach(user => { %>
+        <li>
+          ID: <%= user.id %> —
+          <%= user.firstName %> <%= user.lastName %>
+          <% if (user.email) { %> — <%= user.email %> <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No users found.</p>
+  <% } %>
+
+  <a href="/">Back to Home</a>
+</body>
+</html>
